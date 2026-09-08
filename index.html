@@ -1,0 +1,350 @@
+<!doctype html><html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mathe-Abenteuer 3. Klasse</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:linear-gradient(135deg,#eef1ff,#fff8ed);color:#20243a}.app{max-width:900px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;gap:8px;align-items:center}.logo{font-size:25px;font-weight:900}.logo span{color:#5b5ce2}.pill{display:inline-block;background:#fff;padding:9px 12px;border-radius:18px;font-weight:900;margin:2px;box-shadow:0 6px 20px #0001}.hero,.panel,.card{background:#fff;border-radius:25px;box-shadow:0 8px 25px #0001}.hero{background:linear-gradient(135deg,#5b5ce2,#8586f5);color:#fff;padding:22px;margin:15px 0}.hero h1{margin:0 0 6px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}button{font:inherit;border:0;cursor:pointer}.card{padding:17px;text-align:left;min-height:135px}.icon{font-size:34px}.card h3{margin:7px 0}.card p{margin:0;color:#6d738a;font-size:14px}.panel{padding:21px}.back,.btn{padding:13px 16px;border-radius:16px;font-weight:900}.back{background:#eef0ff;color:#5b5ce2}.btn{background:#5b5ce2;color:#fff;width:100%;margin-top:10px}.secondary{background:#eef0ff;color:#5b5ce2}.q{text-align:center;font-size:36px;font-weight:900;margin:25px 0;white-space:pre-line}.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ans{padding:18px;border-radius:19px;background:#f0f1ff;font-size:24px;font-weight:900}.correct{background:#e7faef!important;outline:3px solid #20a66a}.wrong{background:#fff0f0!important;outline:3px solid #e25353}.fb{text-align:center;min-height:45px;padding:12px;font-weight:900}.bar{height:9px;background:#e6e7ef;border-radius:10px}.bar div{height:100%;background:#5b5ce2}.box{padding:16px;border-radius:20px;background:#fff4d8;margin-top:15px}.clock{width:220px;height:220px;border:8px solid #20243a;border-radius:50%;margin:15px auto;position:relative;background:#fff}.hand{position:absolute;left:50%;bottom:50%;transform-origin:bottom;border-radius:5px}.hour{height:58px;width:7px;background:#20243a}.min{height:82px;width:5px;background:#5b5ce2}.dot{position:absolute;width:15px;height:15px;border-radius:50%;background:#20243a;left:calc(50% - 7px);top:calc(50% - 7px)}.num{position:absolute;font-weight:900}.input{padding:14px;border:2px solid #ddd;border-radius:14px;text-align:center;width:100%;font-weight:900}.big{text-align:center;font-size:60px}.coinrow{display:flex;justify-content:center;align-items:flex-end;gap:9px;flex-wrap:wrap;margin:22px 0}.coin{display:flex;align-items:center;justify-content:center;border:3px solid #8d8d8d;border-radius:50%;font-weight:950;background:#fff}.c1{width:52px;height:52px}.c2{width:60px;height:60px}.c5{width:66px;height:66px}.c10{width:70px;height:70px}.c20{width:74px;height:74px}.c50{width:78px;height:78px}.e1{width:84px;height:84px}.e2{width:90px;height:90px}.shape{width:210px;height:150px;margin:15px auto;display:flex;align-items:center;justify-content:center}.square{width:105px;height:105px;border:4px solid #20243a}.rect{width:170px;height:95px;border:4px solid #20243a}.tri{width:0;height:0;border-left:65px solid transparent;border-right:65px solid transparent;border-bottom:115px solid #20243a}.para{width:145px;height:100px;border:4px solid #20243a;transform:skew(-18deg)}.unitbox{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}.unit{padding:10px 5px;background:#f0f1ff;border-radius:13px;text-align:center;font-weight:900}.vertical{display:inline-block;text-align:right;font-size:34px;line-height:1.15;font-weight:950;font-family:ui-monospace,monospace;background:#fafafa;padding:15px 24px;border-radius:16px}.mistake{background:#fff7f7;border-radius:15px;padding:11px;margin:7px 0}.muted{color:#6d738a;font-size:14px}
+.parentgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.parentcard{background:#f7f7fb;border-radius:18px;padding:15px}.parentcard b{display:block;font-size:23px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:9px;border-bottom:1px solid #eee}.chart{background:#fff;color:#20243a;border-radius:20px;padding:14px;margin-top:15px}.charttitle{font-weight:900;margin-bottom:10px}.bars{height:135px;display:flex;align-items:flex-end;gap:7px}.daybar{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:10px;color:#6d738a}.barv{width:80%;max-width:36px;background:#8586f5;border-radius:8px 8px 2px 2px;min-height:3px}.daybar strong{font-size:10px;color:#20243a;margin-bottom:3px}.danger{background:#fff0f0;color:#b52e2e}.input{width:100%;padding:14px;border:2px solid #d9dbe7;border-radius:15px;text-align:center;font-weight:900}
+</style><div class="app" id="app"></div><script>
+const T=[["add","➕","Addition"],["sub","➖","Subtraktion"],["mul","✖️","Einmaleins"],["div","➗","Division"],["money","💶","Geld"],["time","🕐","Uhrzeit"],["measure","📏","Maße"],["geo","🔷","Geometrie"],["word","📖","Sachaufgaben"],["tests","📝","Tests"]];
+let S=JSON.parse(localStorage.getItem("m3")||'{"p":0,"s":0,"j":0,"min":0,"c":{},"tests":0,"days":{},"mistakes":{},"lastDay":""}'),G=null;
+if(!S.days)S.days={};if(!S.mistakes)S.mistakes={};if(!S.c)S.c={};if(!S.tests)S.tests=0;if(!S.min)S.min=0;
+const R=(a,b)=>Math.floor(Math.random()*(b-a+1))+a, SH=a=>a.sort(()=>Math.random()-.5);
+function O(c,f){let x=new Set([String(c)]);while(x.size<4)x.add(String(f()));return SH([...x])}
+function save(){localStorage.setItem("m3",JSON.stringify(S))}
+function ensureDay(){
+  const k=new Date().toISOString().slice(0,10);
+  if(!S.days)S.days={};
+  if(!S.lastDay)S.lastDay=k;
+  if(S.lastDay!==k){S.days[k]={minutes:0,right:0,blocks:0};S.lastDay=k}
+  if(!S.days[k])S.days[k]={minutes:0,right:0,blocks:0};
+  return S.days[k]
+}
+ensureDay();
+let learnTimer=null,learnStarted=0;
+function addLearning(min){
+  const d=ensureDay();
+  d.minutes+=min;
+  const blocks=Math.floor(d.minutes/15);
+  while(d.blocks<blocks){d.blocks++;S.min+=5}
+  save();
+}
+function startLearning(){
+  stopLearning();
+  learnStarted=Date.now();
+  learnTimer=setInterval(()=>{
+    const m=Math.floor((Date.now()-learnStarted)/60000);
+    if(m>0){addLearning(m);learnStarted=Date.now()}
+  },30000);
+}
+function stopLearning(){
+  if(learnTimer)clearInterval(learnTimer);
+  learnTimer=null;
+  if(learnStarted){
+    const m=Math.floor((Date.now()-learnStarted)/60000);
+    if(m>0)addLearning(m);
+  }
+  learnStarted=0;
+}
+function lvl(t){let n=S.c[t]||0;return n<10?1:n<20?2:3}
+function make(t){
+  let a,b,c,x,o,r;
+  if(t=="add"){
+    r=lvl(t)==1?[1,9]:lvl(t)==2?[10,99]:[100,999];
+    a=R(r[0],Math.max(r[0],r[1]-1)); b=R(Math.max(1,r[0]),Math.max(1,r[1]-a)); c=a+b;
+    x=`${a} + ${b} = ?`; o=O(c,()=>Math.max(0,c+R(-9,9)));
+  }
+  if(t=="sub"){
+    r=lvl(t)==1?[1,9]:lvl(t)==2?[10,99]:[100,999];
+    a=R(Math.max(2,r[0]),r[1]); b=R(r[0],a); c=a-b;
+    x=`${a} − ${b} = ?`; o=O(c,()=>Math.max(0,c+R(-9,9)));
+  }
+  if(t=="mul"){
+    let m=lvl(t)==1?5:lvl(t)==2?10:12;a=R(2,m);b=R(2,m);c=a*b;
+    x=`${a} × ${b} = ?`;o=O(c,()=>R(2,m)*a);
+  }
+  if(t=="div"){
+    let m=lvl(t)==1?5:lvl(t)==2?10:12;b=R(2,m);c=R(2,m);a=b*c;
+    x=`${a} ÷ ${b} = ?`;o=O(c,()=>R(1,m));
+  }
+  if(t=="word"){
+    a=R(3,12);b=R(2,12);c=a*b;x=`${a} Kisten enthalten jeweils ${b} Äpfel.\nWie viele Äpfel sind es?`;
+    o=O(c,()=>a*R(2,15));
+  }
+  return{x,c:String(c),o};
+}
+
+function written(t){
+  let r=lvl(t)==1?[1,9]:lvl(t)==2?[10,99]:[100,999],a,b,c;
+  if(t=="add"){
+    a=R(Math.max(10,r[0]),r[1]);b=R(Math.max(10,r[0]),r[1]);c=a+b;
+  }else{
+    a=R(Math.max(10,r[0]),r[1]);b=R(Math.max(1,r[0]),Math.min(a,r[1]));c=a-b;
+  }
+  G.q={x:`${a} ${t=="add"?"+":"−"} ${b}`,c:String(c),written:true};
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button>
+    <div style="display:flex;justify-content:space-between"><b>${t=="add"?"➕ Schriftliche Addition":"➖ Schriftliche Subtraktion"}</b><span>${G.i+1}/10</span></div>
+    <div class="bar"><div style="width:${G.i*10}%"></div></div>
+    <p class="center">Rechne die Aufgabe schriftlich untereinander.</p>
+    <div class="vertical">${a}<br>${t=="add"?"+":"−"} ${b}<br>──────<br><span style="color:#5b5ce2">?</span></div>
+    <input id="writtenInput" class="input" inputmode="numeric" placeholder="Ergebnis">
+    <button class="btn" onclick="writtenAns()">Kontrollieren</button><div id="fb" class="fb"></div></div>`;
+  document.getElementById("writtenInput").focus();
+}
+
+function writtenAns(){
+  let v=document.getElementById("writtenInput").value.trim(),ok=v===G.q.c;
+  document.getElementById("writtenInput").disabled=true;document.querySelector(".btn").disabled=true;
+  feedback(ok,"Schriftliche Rechnung",G.q.x+" = "+G.q.c);
+  setTimeout(()=>{G.i++;G.i==10?finish():next()},750);
+}
+
+function money(){
+  const den=[1,2,5,10,20,50,100,200], coins=[];
+  let total=0;
+  const n=R(3,6);
+  for(let i=0;i<n;i++){let v=den[R(0,den.length-1)];coins.push(v);total+=v}
+  G.q={c:(total/100).toFixed(2).replace(".",",")+" €",key:"Münzen: "+coins.join(", ")+" Cent"};
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button>
+    <div style="display:flex;justify-content:space-between"><b>💶 Geld</b><span>${G.i+1}/10</span></div>
+    <div class="bar"><div style="width:${G.i*10}%"></div></div>
+    <p class="center">Zähle die Münzen zusammen. Wie viel Geld ist es?</p>
+    <div class="coinrow">${coins.map(v=>coinHTML(v)).join("")}</div>
+    <input id="moneyInput" class="input" inputmode="decimal" placeholder="z. B. 2,30 €">
+    <button class="btn" onclick="moneyAns()">Kontrollieren</button><div id="fb" class="fb"></div></div>`;
+  document.getElementById("moneyInput").focus();
+}
+function coinHTML(v){
+  const cls=v<=1?"c1":v==2?"c2":v==5?"c5":v==10?"c10":v==20?"c20":v==50?"c50":v==100?"e1":"e2";
+  return `<div class="coin ${cls}">${v<100?v+" ct":(v/100)+" €"}</div>`;
+}
+function moneyAns(){
+  let v=document.getElementById("moneyInput").value.trim().replace("€","").trim().replace(".",",");
+  if(/^[0-9]+$/.test(v))v=(parseInt(v,10)/100).toFixed(2).replace(".",",")+" €";
+  else if(/^[0-9]+,[0-9]$/.test(v))v+="0 €"; else if(/^[0-9]+,[0-9]{2}$/.test(v))v+=" €";
+  let ok=v===G.q.c;
+  document.getElementById("moneyInput").disabled=true;document.querySelector(".btn").disabled=true;
+  feedback(ok,"Geldaufgabe",G.q.key+" → "+G.q.c);
+  setTimeout(()=>{G.i++;G.i==10?finish():next()},750);
+}
+
+const SHAPES=[
+  ["Quadrat","square","🔲"],["Rechteck","rect","▭"],["Dreieck","tri","▲"],["Parallelogramm","para","▱"]
+];
+function geo(){
+  if(R(0,1)==0){
+    let s=SHAPES[R(0,SHAPES.length-1)];
+    G.q={c:s[0],key:"Form erkennen: "+s[0]};
+    let opts=O(s[0],()=>SHAPES[R(0,SHAPES.length-1)][0]);
+    app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button>
+      <div style="display:flex;justify-content:space-between"><b>🔷 Geometrie</b><span>${G.i+1}/10</span></div>
+      <div class="shape"><div class="${s[1]}"></div></div><p class="center">Welche geometrische Form ist das?</p>
+      <div class="answers">${opts.map((z,i)=>`<button class="ans" onclick="geoChoice(this,'${z}')">${z}</button>`).join("")}</div>
+      <div id="fb" class="fb"></div></div>`;
+  }else{
+    let type=R(0,1),w=R(3,15),h=R(2,12),c;
+    if(type==0){c=2*(w+h);G.q={c:String(c),key:`Umfang Rechteck ${w} cm × ${h} cm`};
+      app.innerHTML=geoPerim(`Rechteck`,`${w} cm × ${h} cm`,c)}
+    else{c=4*w;G.q={c:String(c),key:`Umfang Quadrat Seitenlänge ${w} cm`};
+      app.innerHTML=geoPerim(`Quadrat`,`Seitenlänge ${w} cm`,c)}
+  }
+}
+function geoPerim(name,desc,c){
+  return `<div class="panel"><button class="back" onclick="home()">← Zurück</button><b>🔷 Umfang berechnen</b>
+    <div class="shape"><div class="${name=="Rechteck"?"rect":"square"}></div></div>
+    <p class="center">${name}: ${desc}<br>Wie groß ist der Umfang?</p>
+    <input id="geoInput" class="input" inputmode="numeric" placeholder="Ergebnis in cm">
+    <button class="btn" onclick="geoInputAns()">Kontrollieren</button><div id="fb" class="fb"></div></div>`
+}
+function geoChoice(b,z){
+  let ok=z===G.q.c,bs=[...document.querySelectorAll(".ans")];bs.forEach(x=>x.disabled=true);
+  b.classList.add(ok?"correct":"wrong");let r=bs.find(x=>x.textContent===G.q.c);if(r)r.classList.add("correct");
+  feedback(ok,"Form erkennen",G.q.key);
+  setTimeout(()=>{G.i++;G.i==10?finish():next()},750)
+}
+function geoInputAns(){
+  let v=document.getElementById("geoInput").value.trim(),ok=v===G.q.c;
+  document.getElementById("geoInput").disabled=true;document.querySelector(".btn").disabled=true;
+  feedback(ok,"Umfang",G.q.key+" → "+G.q.c+" cm");
+  setTimeout(()=>{G.i++;G.i==10?finish():next()},750)
+}
+
+const UNITS=["mm","cm","dm","m","km"], FACT={mm:1,cm:10,dm:100,m:1000,km:1000000};
+function measure(){
+  let from=UNITS[R(0,4)],to=UNITS[R(0,4)];
+  while(to===from)to=UNITS[R(0,4)];
+  const choices=[1,2,3,4,5,10,20,30,40,50,100,200,300,500,1000,2000];
+  let value=choices[R(0,choices.length-1)];
+  let base=value*FACT[from],ans=base/FACT[to];
+  if(!Number.isInteger(ans)){value=choices.find(v=>Number.isInteger(v*FACT[from]/FACT[to]))||10;base=value*FACT[from];ans=base/FACT[to]}
+  G.q={c:String(ans),key:`Maße umrechnen: ${value} ${from} → ${to}`};
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button>
+    <div style="display:flex;justify-content:space-between"><b>📏 Maße umrechnen</b><span>${G.i+1}/10</span></div>
+    <div class="unitbox">${UNITS.map(u=>`<div class="unit">${u}</div>`).join("")}</div>
+    <div class="q" style="font-size:29px">${value} ${from} = ? ${to}</div>
+    <p class="center muted">Denke an die Umrechnungsleiter: mm → cm → dm → m → km.</p>
+    <input id="measureInput" class="input" inputmode="decimal" placeholder="Zahl">
+    <button class="btn" onclick="measureAns()">Kontrollieren</button><div id="fb" class="fb"></div></div>`;
+  document.getElementById("measureInput").focus();
+}
+function measureAns(){
+  let v=document.getElementById("measureInput").value.trim().replace(",",".");
+  let ok=v===G.q.c;
+  document.getElementById("measureInput").disabled=true;document.querySelector(".btn").disabled=true;
+  feedback(ok,"Maße umrechnen",G.q.key+" → "+G.q.c);
+  setTimeout(()=>{G.i++;G.i==10?finish():next()},750)
+}
+
+function feedback(ok,type,key){
+  const fb=document.getElementById("fb"); if(!fb)return;
+  fb.textContent=ok?"🎉 Richtig!":"💡 Noch nicht – die richtige Lösung wird dir gezeigt.";
+  recordAttempt(key,ok,type);
+}
+function recordAttempt(key,ok,type){
+  ensureDay(); const d=S.days[S.lastDay];
+  if(ok)d.right=(d.right||0)+1;
+  if(!S.mistakes)S.mistakes={};
+  if(!S.mistakes[key])S.mistakes[key]={wrong:0,right:0,type};
+  if(ok)S.mistakes[key].right++;else S.mistakes[key].wrong++;
+  save();
+}
+function weeklyChart(){
+  let a=[];
+  for(let i=6;i>=0;i--){
+    let d=new Date();d.setDate(d.getDate()-i);
+    let k=d.toISOString().slice(0,10),x=S.days?.[k]||{minutes:0,right:0};
+    let label=["So","Mo","Di","Mi","Do","Fr","Sa"][d.getDay()];
+    a.push({label,minutes:x.minutes||0,right:x.right||0});
+  }
+  const mx=Math.max(1,...a.map(x=>x.right));
+  return `<div class="chart"><div class="charttitle">📊 Erfolge & Lernzeit der letzten 7 Tage</div><div class="bars">${a.map(x=>`<div class="daybar"><strong>${x.right} ✓</strong><div class="barv" style="height:${Math.max(3,x.right/mx*100)}%"></div><span>${x.label}</span><span>${x.minutes} min</span></div>`).join("")}</div><div class="small" style="margin-top:7px">Balken = richtig gelöste Aufgaben · Minuten = gesamte Lernzeit des Tages.</div></div>`
+}
+function home(){
+  stopLearning(); const d=ensureDay();
+  app.innerHTML=`<div class="top"><div class="logo">🧠 <span>Mathe macht Spaß!</span></div><div><span class="pill">⭐ ${S.s}</span><span class="pill">🃏 ${S.j}</span><span class="pill">📱 ${S.min} Min.</span></div></div>
+  <div class="hero"><h1>Mathe macht Spaß! 🚀</h1><p>Üben, Fortschritte sammeln und Handyzeit erspielen.</p>${weeklyChart()}<div style="margin-top:12px;text-align:center">Heute: <b>${d.minutes} Minuten gelernt</b> · <b>${d.right} richtig</b></div></div>
+  <div class="grid">${T.map(t=>`<button class="card" onclick="${t[0]=="tests"?"tests()":"start('"+t[0]+"')"}"><div class="icon">${t[1]}</div><h3>${t[2]}</h3><p>${t[0]=="tests"?"Direkte Antworten · besonderer Bonus":"Stufe "+lvl(t[0])+" · "+((S.c[t[0]]||0)%10)+"/10 bis zur nächsten Stufe"}</p></button>`).join("")}
+  <button class="card" onclick="parentLogin()"><div class="icon">👨‍👩‍👧</div><h3>Elternbereich</h3><p>Fortschritt, Lernzeit & Einstellungen</p></button></div>
+  <div class="box"><b>📱 Handyzeit</b><p><b>15 Minuten Lernen = 5 Minuten Handyzeit.</b><br>Die Lernzeit wird über den ganzen Tag gesammelt und am nächsten Tag wieder auf 0 gesetzt. Jeder bestandene Test bringt zusätzlich <b>5 Minuten</b>.</p></div>`
+}
+function start(t){G={t,i:0,right:0};startLearning();next()}
+function next(){
+  let t=G.t;
+  if(t=="time"){clock();return}
+  if(t=="measure"){measure();return}
+  if(t=="money"){money();return}
+  if(t=="geo"){geo();return}
+  if((t=="add"||t=="sub") && (G.i%2==0 || lvl(t)>=2)){written(t);return}
+  let q=make(t);G.q=q;
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button>
+    <div style="display:flex;justify-content:space-between"><b>${T.find(z=>z[0]==t)[2]}</b><span>${G.i+1}/10</span></div>
+    <div class="bar"><div style="width:${G.i*10}%"></div></div><div class="q">${q.x}</div>
+    <div class="answers">${q.o.map((z,i)=>`<button class="ans" onclick="ans(${i})">${z}</button>`).join("")}</div>
+    <div id="fb" class="fb"></div><button class="btn secondary" onclick="joker()">🃏 Joker einsetzen (${S.j})</button></div>`
+}
+function ans(i){
+  let q=G.q,bs=[...document.querySelectorAll(".ans")],ok=bs[i].textContent===q.c;
+  bs.forEach(b=>b.disabled=true);bs[i].classList.add(ok?"correct":"wrong");
+  if(!ok){let z=bs.find(b=>b.textContent===q.c);if(z)z.classList.add("correct")}
+  feedback(ok,"Rechenaufgabe",q.x);
+  if(ok){G.right++;S.p+=10;S.s++;S.c[G.t]=(S.c[G.t]||0)+1;if(S.c[G.t]%10==0){S.j++;fb.textContent+=" 🃏 Joker bekommen!"}}
+  save();setTimeout(()=>{G.i++;G.i==10?finish():next()},750)
+}
+function joker(){if(S.j<1)return alert("Noch kein Joker. 10 richtige Aufgaben bringen einen Joker.");let b=[...document.querySelectorAll(".ans")].filter(x=>!x.disabled);if(b.length<=2)return;S.j--;SH(b).slice(0,2).forEach(x=>{x.disabled=true;x.style.visibility="hidden"});save()}
+function clock(){let h=R(1,12),m=[0,5,10,15,20,25,30,35,40,45,50,55][R(0,11)],ha=h*30+m*.5,ma=m*6,c=`${h}:${String(m).padStart(2,"0")} Uhr`;G.c=c;app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button><div class="big">🕐</div><div class="clock"><div class="hand hour" style="transform:rotate(${ha}deg)"></div><div class="hand min" style="transform:rotate(${ma}deg)"></div><div class="dot"></div></div><div class="q" style="font-size:25px">Wie spät ist es?</div><div class="answers">${O(c,()=>`${R(1,12)}:${String([0,15,30,45][R(0,3)]).padStart(2,"0")} Uhr`).map((z,i)=>`<button class="ans" onclick="clockAns(this,'${z}')">${z}</button>`).join("")}</div><div id="fb" class="fb"></div></div>`}
+function clockAns(b,z){
+  let ok=z==G.c,bs=[...document.querySelectorAll(".ans")];bs.forEach(x=>x.disabled=true);
+  b.classList.add(ok?"correct":"wrong");let r=bs.find(x=>x.textContent==G.c);if(r)r.classList.add("correct");
+  feedback(ok,"Uhrzeit","Uhr ablesen: "+G.c);
+  if(ok){G.right++;S.p+=10;S.s++;S.c.time=(S.c.time||0)+1;if(S.c.time%10==0)S.j++}
+  save();setTimeout(()=>{G.i++;G.i==10?finish():next()},750)
+}
+function measure(){let c=R(1,10);G.c=String(c);app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button><div class="big">📏</div><p class="q" style="font-size:24px">Wie viele Zentimeter zeigt das Maßband?</p><div style="height:70px;border:3px solid #20243a;border-radius:12px;background:repeating-linear-gradient(90deg,#fff 0,#fff 19px,#20243a 20px,#fff 21px)"></div><input id="mv" class="input" type="number" min="0" max="10" placeholder="Länge in cm"><button class="btn" onclick="measureAns()">Kontrollieren</button><div id="fb" class="fb"></div></div>`}
+function measureAns(){let ok=String(mv.value)==G.c;fb.textContent=ok?"🎉 Genau!":"💡 Zähle die Zentimeter-Striche.";if(ok){G.right++;S.p+=10;S.s++;S.c.measure=(S.c.measure||0)+1;if(S.c.measure%10==0)S.j++;save();setTimeout(()=>{G.i++;G.i==10?finish():next()},750)}}
+function finish(){stopLearning();let b=G.right>=9?3:G.right>=7?2:G.right>=5?1:0;S.s+=b;save();app.innerHTML=`<div class="panel"><div class="big">${G.right>=8?"🏆":"💪"}</div><h1 style="text-align:center">Geschafft!</h1><p style="text-align:center">Du hast <b>${G.right}/10</b> richtig.</p><p style="text-align:center;font-size:25px">⭐ +${b} Bonus-Sterne</p><button class="btn" onclick="start('${G.t}')">Nochmal</button><button class="btn secondary" onclick="home()">Zur Übersicht</button></div>`}
+function tests(){
+  stopLearning();
+  let unlock=Object.values(S.c).some(n=>n>=20);
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button><div class="big">📝</div>
+  <h1 class="center">Mathe-Test</h1>
+  <p>10 gemischte Aufgaben. <b>Keine Auswahlmöglichkeiten:</b> Die Antwort muss direkt eingegeben werden.</p>
+  <p>Mit mindestens <b>8 von 10</b> richtigen Antworten ist der Test bestanden und bringt <b>5 Minuten Handyzeit</b>.</p>
+  <p>${unlock?"🎁 Test freigeschaltet!":"🔒 Erst mindestens 20 Aufgaben in einem Thema richtig lösen."}</p>
+  <button class="btn" ${unlock?"":"disabled"} onclick="testStart()">Test starten</button></div>`
+}
+function testStart(){G={t:"test",i:0,right:0};startLearning();testNext()}
+function testNext(){
+  if(G.i>=10){
+    stopLearning();
+    let pass=G.right>=8;
+    if(pass){S.s+=10;S.min+=5}
+    S.tests++;save();
+    app.innerHTML=`<div class="panel center"><div class="big">${pass?"🎁":"💪"}</div>
+    <h1>${pass?"Test bestanden!":"Weiter üben!"}</h1><p style="font-size:22px">${G.right}/10 richtig</p>
+    <p>${pass?"🎉 Bonus: +5 Minuten Handyzeit und +10 Sterne!":"Ab 8 richtigen Antworten ist der Test bestanden."}</p>
+    <button class="btn" onclick="home()">Zur Übersicht</button></div>`;
+    return
+  }
+  let ts=["add","sub","mul","div","word"],t=ts[rnd(0,4)],q=make(t);G.q=q;
+  app.innerHTML=`<div class="panel"><div style="display:flex;justify-content:space-between"><b>📝 Test</b><span>${G.i+1}/10</span></div>
+  <div class="q">${q.x}</div><input id="testInput" class="input" inputmode="numeric" autocomplete="off" placeholder="Deine Antwort">
+  <button class="btn" onclick="testAnswer()">Antwort prüfen</button><div id="fb" class="feedback"></div></div>`;
+  document.getElementById("testInput").focus();
+}
+function testAnswer(){
+  let v=document.getElementById("testInput").value.trim();
+  let ok=v===G.q.c;
+  document.getElementById("testInput").disabled=true;
+  document.querySelector(".btn").disabled=true;
+  document.getElementById("fb").textContent=ok?"🎉 Richtig!":"💡 Leider falsch.";
+  recordAttempt("Test: "+G.q.x,ok,"Test");
+  if(ok)G.right++;
+  setTimeout(()=>{G.i++;testNext()},750);
+}
+function parentLogin(){
+  const pin=prompt("Eltern-PIN eingeben:");
+  const real=S.pin||"1234";
+  if(pin===real)parentPage();
+  else if(pin!==null)alert("Falsche PIN.");
+}
+function parentPage(){
+  stopLearning(); const d=ensureDay();
+  let rows=[];
+  for(let i=6;i>=0;i--){
+    let x=new Date();x.setDate(x.getDate()-i);
+    let k=x.toISOString().slice(0,10),z=S.days?.[k]||{minutes:0,right:0};
+    rows.push(`<tr><td>${k}</td><td>${z.minutes||0} min</td><td>${z.right||0}</td></tr>`);
+  }
+  const hard=Object.entries(S.mistakes||{})
+    .filter(([k,v])=>(v.wrong||0)>0)
+    .sort((a,b)=>(b[1].wrong-a[1].wrong)||((b[1].wrong/(b[1].wrong+b[1].right))-(a[1].wrong/(a[1].wrong+a[1].right))))
+    .slice(0,8);
+  const hardHtml=hard.length?hard.map(([k,v])=>{
+    const attempts=(v.wrong||0)+(v.right||0),rate=Math.round((v.wrong/attempts)*100);
+    return `<div class="mistake"><b>${k}</b><br><span class="muted">❌ ${v.wrong} falsch · ✅ ${v.right} richtig · Fehlerquote ${rate}%</span></div>`
+  }).join(""):`<p class="muted">Noch keine falsch beantworteten Aufgaben gespeichert.</p>`;
+  app.innerHTML=`<div class="panel"><button class="back" onclick="home()">← Zurück</button><div class="big">👨‍👩‍👧</div>
+  <h1>Elternbereich</h1><div class="parentgrid">
+  <div class="parentcard"><b>${d.minutes} min</b>Lernzeit heute</div>
+  <div class="parentcard"><b>${d.right}</b>richtig heute</div>
+  <div class="parentcard"><b>${S.min} min</b>verfügbare Handyzeit</div>
+  <div class="parentcard"><b>${S.tests}</b>Tests</div></div>
+  <div class="box"><b>📱 Handyzeit-Regel</b><p>Je <b>15 Minuten Lernen</b> werden automatisch <b>5 Minuten Handyzeit</b> gutgeschrieben. Jeder bestandene Test bringt zusätzlich <b>5 Minuten</b>.</p><p>Die Tageslernzeit wird beim nächsten Tageswechsel zurückgesetzt. Bereits erspielte Handyzeit bleibt erhalten.</p></div>
+  <h2>📊 Letzte 7 Tage</h2><table><tr><th>Tag</th><th>Lernzeit</th><th>Richtig</th></tr>${rows.join("")}</table>
+  <h2>🔥 Schwierigste Aufgaben</h2><p class="muted">Hier stehen Aufgaben, bei denen häufig Fehler gemacht wurden. So siehst du sofort, wo noch Übungsbedarf besteht.</p>${hardHtml}
+  <div class="box"><b>⚙️ Eltern-PIN</b><p>Aktuelle PIN ändern:</p><input id="oldpin" class="input" inputmode="numeric" placeholder="Alte PIN"><input id="newpin" class="input" inputmode="numeric" placeholder="Neue PIN" style="margin-top:8px"><button class="btn secondary" onclick="changePin()">PIN speichern</button><p class="muted">Die PIN schützt die Ansicht innerhalb dieser App; sie ist keine sichere Kontosperre.</p></div>
+  <button class="btn danger" onclick="resetProgress()">Fortschritt zurücksetzen</button></div>`
+}
+function changePin(){
+  let old=document.getElementById("oldpin").value,neu=document.getElementById("newpin").value;
+  if(old!==(S.pin||"1234"))return alert("Alte PIN ist falsch.");
+  if(!/^[0-9]{4,8}$/.test(neu))return alert("Bitte eine PIN mit 4 bis 8 Ziffern eingeben.");
+  S.pin=neu;save();alert("PIN wurde geändert.");parentPage();
+}
+function resetProgress(){
+  if(confirm("Wirklich alle Lernfortschritte und Belohnungen löschen?")){
+    localStorage.removeItem("mathe3_parent");location.reload();
+  }
+}
+function redeem(){
+  alert("Handyzeit wird automatisch gutgeschrieben: je 15 Minuten Lernen = 5 Minuten Handyzeit. Einen bestandenen Test gibt es zusätzlich 5 Minuten.");
+}
+home();
+</script></html>
